@@ -23,7 +23,6 @@ export const UserProvider = ({ children }) => {
             try {
                 const { exp } = jwtDecode(token);
                 if (exp * 1000 < Date.now()) {
-                    console.log("Session expired");
                     clearUserData();
                 }
             } catch (error) {
@@ -39,8 +38,6 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const setUserData = (userData) => {
-        console.log("ajmo")
-        console.log(userData);
         localStorage.setItem('user', JSON.stringify(userData));
         setUserState(userData);
     };

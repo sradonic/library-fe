@@ -11,7 +11,6 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
-    console.log("ondje");
     const params = new URLSearchParams();
     params.append('username', credentials.username);
     params.append('password', credentials.password);
@@ -22,10 +21,8 @@ export const loginUser = async (credentials) => {
   }
 };
 
-
 export const fetchUserDetails = async () => {
   try {
-    console.log("ovdje");
     const response = await apiClient.get('/users/me');
     return response.data;
   } catch (error) {
@@ -39,5 +36,24 @@ export const fetchUsers = async () => {
       return response.data;
   } catch (error) {
       throw error;
+  }
+};
+
+export const fetchSpecificUserDetails = async (userId) => {
+  try {
+    const response = await apiClient.get(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserDetails = async (userId, userData) => {
+  try {
+    const response = await apiClient.put(`/users/${userId}`, userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error.response.data);
+    throw error.response.data;
   }
 };

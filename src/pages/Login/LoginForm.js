@@ -44,9 +44,26 @@ function LoginForm() {
         <>
             {alert.show && <Alert type={alert.type} message={alert.message} />}
             <Form noValidate onSubmit={handleSubmit}>
-                <InputField label="Username" type="text" name="username" value={formData.username} onChange={handleChange} />
-                <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
-                <Button variant="primary" className="login-button" type="submit">Log In</Button>
+                <InputField 
+                    label="Username" 
+                    type="text" 
+                    name="username" 
+                    value={formData.username} 
+                    onChange={handleChange} 
+                />
+                <InputField 
+                    label="Password" 
+                    type="password" 
+                    name="password" 
+                    value={formData.password} 
+                    onChange={handleChange} 
+                />
+                <Button 
+                    variant="primary" 
+                    className="login-button" 
+                    type="submit">
+                        Log In
+                </Button>
             </Form>
         </>
     );

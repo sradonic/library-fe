@@ -66,7 +66,11 @@ function RegistrationForm() {
                         errorMessage={errors[key]}
                     />
                 ))}
-                <Button className="register-button" type="submit">Register</Button>
+                <Button 
+                    className="register-button" 
+                    type="submit">
+                        Register
+                </Button>
             </Form>
         </>
     );
