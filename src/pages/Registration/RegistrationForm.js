@@ -7,6 +7,11 @@ import { validateForm } from '../../utils/validation';
 import { registerUser } from '../../services/userService';
 import Alert from '../../components/Alert';
 
+/**
+* Handles the registration functionality.
+* It captures user input, validates the form,
+* submits registration data, and displays corresponding alerts.
+**/
 function RegistrationForm() {
     const [formData, setFormData] = useState({
         username: '',

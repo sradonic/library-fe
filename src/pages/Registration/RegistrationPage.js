@@ -3,6 +3,10 @@ import RegistrationForm from './RegistrationForm';
 import './RegistrationPage.scss'; 
 import library from '../../assets/pexels-tima-miroshnichenko-6550162.jpg'
 
+/** 
+* RegistrationPage  renders a registration form for users to sign up for the application.
+* Displays image of library from assets.
+*/
 function RegistrationPage() {
     return (
         <div className="container mt-5">

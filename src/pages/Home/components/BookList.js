@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**  
+* BookList helper component for HomePage displays a list of books borrowed by a user.
+* It receives an array of books as props and renders each book as a card.
+**/
 const BookList = ({ books }) => {
     return (
         <div className="row">

@@ -1,5 +1,11 @@
 import { apiClient } from '../utils/api';
 
+/**
+ * Registers a new user.
+ * @param {Object} userData - User data to be registered.
+ * @returns {Promise} A promise that resolves to the registered user data.
+ * @throws {Error} If there is an error while registering the user.
+ **/
 export const registerUser = async (userData) => {
   try {
     const response = await apiClient.post('/users/', userData);
@@ -9,6 +15,12 @@ export const registerUser = async (userData) => {
   }
 };
 
+/**
+ * Logs in a user.
+ * @param {Object} credentials - User credentials (username and password).
+ * @returns {Promise} A promise that resolves to the authentication token.
+ * @throws {Error} If there is an error while logging in.
+ **/
 export const loginUser = async (credentials) => {
   try {
     const params = new URLSearchParams();
@@ -21,6 +33,11 @@ export const loginUser = async (credentials) => {
   }
 };
 
+/**
+ * Fetches details of the current user.
+ * @returns {Promise} A promise that resolves to the user details.
+ * @throws {Error} If there is an error while fetching the user details.
+ **/
 export const fetchUserDetails = async () => {
   try {
     const response = await apiClient.get('/users/me');
@@ -30,6 +47,11 @@ export const fetchUserDetails = async () => {
   }
 };
 
+/**
+ * Fetches details of all users.
+ * @returns {Promise} A promise that resolves to an array of user details.
+ * @throws {Error} If there is an error while fetching the user details.
+ **/
 export const fetchUsers = async () => {
   try {
       const response = await apiClient.get('/users/');
@@ -39,6 +61,12 @@ export const fetchUsers = async () => {
   }
 };
 
+/**
+ * Fetches details of a specific user.
+ * @param {string} userId - The ID of the user to fetch details for.
+ * @returns {Promise} A promise that resolves to the user details.
+ * @throws {Error} If there is an error while fetching the user details.
+ **/
 export const fetchSpecificUserDetails = async (userId) => {
   try {
     const response = await apiClient.get(`/users/${userId}`);
@@ -48,6 +76,13 @@ export const fetchSpecificUserDetails = async (userId) => {
   }
 };
 
+/**
+ * Updates details of a specific user.
+ * @param {string} userId - The ID of the user to update.
+ * @param {Object} userData - New user data.
+ * @returns {Promise} A promise that resolves to the updated user details.
+ * @throws {Error} If there is an error while updating the user details.
+ **/
 export const updateUserDetails = async (userId, userData) => {
   try {
     const response = await apiClient.put(`/users/${userId}`, userData);

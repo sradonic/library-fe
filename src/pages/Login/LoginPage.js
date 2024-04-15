@@ -3,6 +3,10 @@ import LoginForm from './LoginForm';
 import './LoginPage.scss'; 
 import library from '../../assets/pexels-tima-miroshnichenko-6550162.jpg'
 
+/**  
+* LoginPage renders a login form for users to log into the application.
+* Displays image of library from assets.
+*/
 function LoginPage() {
     return (
         <div className="container mt-5">

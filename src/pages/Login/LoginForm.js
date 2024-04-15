@@ -8,6 +8,11 @@ import { loginUser, fetchUserDetails } from '../../services/userService';
 import { useContext } from 'react';
 import { UserContext } from '../../services/UserContext';
 
+/** 
+* Handles the login functionality.
+* It captures user input, submits login data,
+* and displays corresponding alerts.
+**/
 function LoginForm() {
     const [formData, setFormData] = useState({
         username: '',

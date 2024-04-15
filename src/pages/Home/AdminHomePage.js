@@ -4,6 +4,10 @@ import Navbar from '../../components/Navbar';
 import { fetchUsers } from '../../services/userService';
 import Table from '../../components/Table';
 
+/** 
+* Represents the admin homepage displaying a list of users.
+* It fetches users data on component mount and renders it in a table format.
+**/
 function AdminHomePage() {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');

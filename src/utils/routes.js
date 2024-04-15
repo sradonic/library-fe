@@ -9,7 +9,6 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import UserDetails from '../pages/Users/UserDetails';
 import { Roles } from './role';
 
-
 const RoleBasedHomePage = () => {
   const { user } = useUser(); 
   switch (user?.role.name) {
@@ -22,7 +21,6 @@ const RoleBasedHomePage = () => {
       return <Navigate to="/login" />;
   }
 };
-
 
 export const routes = [
   {

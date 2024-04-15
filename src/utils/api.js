@@ -7,12 +7,13 @@ export const apiClient = axios.create({
   baseURL: API_BASE_URL,
 });
 
+// Endpoints that should skip token authentication
 const skipTokenRoutes = [
   { endpoint: '/token', method: 'post' },
   { endpoint: '/users/', method: 'post' }  
 ];
 
-
+// Intercepting requests to add authentication token
 apiClient.interceptors.request.use(
   config => {
     const shouldSkipToken = skipTokenRoutes.some(route =>

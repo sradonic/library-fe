@@ -6,6 +6,10 @@ import Button from '../../../components/Button';
 import { updateUserDetails } from '../../../services/userService';
 import { Roles } from '../../../utils/role';
 
+/** 
+* Modal component for editing user details. Displays username, name, email, and role,
+* allowing admin to update given infromation. 
+**/
 const EditUserModal = ({ show, handleClose, user, setUser  }) => {
     const [formData, setFormData] = useState({ ...user });
     const roleOptions = Object.entries(Roles).map(([key, value]) => ({

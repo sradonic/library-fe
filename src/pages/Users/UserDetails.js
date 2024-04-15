@@ -10,7 +10,10 @@ import EditUserModal from './helpers/EditUserModal';
 import { useUser } from '../../services/UserContext';
 import { Roles } from '../../utils/role';
 
-
+/**
+* Represents the user details page displaying information about a specific user, their borrowed books,
+* and available books. Admins have the ability to edit user details.
+**/
 function UserDetails() {
     const { userId } = useParams(); 
     const [showEditModal, setShowEditModal] = useState(false);
@@ -30,11 +33,13 @@ function UserDetails() {
         }
     };
 
+    // Columns definition for user's borrowed books
     const bookColumns = [
         { header: 'Title' }, { header: 'Author' }, { header: 'Borrowed Date' },
         { header: 'Return Date' }, { header: 'Actions' }
     ];
 
+    // Function to render rows for user's borrowed books
     const renderBookRow = (book, index) => (
         <tr key={index}>
             <td>{book.book.title}</td>
@@ -42,33 +47,45 @@ function UserDetails() {
             <td>{new Date(book.borrowed_date).toLocaleDateString()}</td>
             <td>{new Date(book.returned_date).toLocaleDateString()}</td>
             <td>
-                <Button onClick={() => handleRenew(book.id, book.returned_date)} variant="success" className="btn-sm">
-                    Renew
+                <Button 
+                    onClick={() => handleRenew(book.id, book.returned_date)} 
+                    variant="success" 
+                    className="btn-sm">
+                        Renew
                 </Button>
-                <Button onClick={() => handleReturn(book.id)} variant={pendingReturns[book.id] ? 'warning' : 'danger'} className="btn-sm">
-                    {pendingReturns[book.id] ? 'Confirm Return' : 'Return'}
+                <Button 
+                    onClick={() => handleReturn(book.id)} 
+                    variant={pendingReturns[book.id] ? 'warning' : 'danger'} 
+                    className="btn-sm">
+                        {pendingReturns[book.id] ? 'Confirm Return' : 'Return'}
                 </Button>
             </td>
         </tr>
     );
 
+    // Columns definition for available books
     const allBookColumns = [
         { header: 'Title' }, { header: 'Author' }, { header: 'Books Left' }, { header: 'Action' }
     ];
 
+    // Function to render rows for available books
     const renderAllBookRow = (book, index) => (
         <tr key={index}>
             <td>{book.title}</td>
             <td>{book.author}</td>
             <td>{book.quantity}</td>
             <td>
-                <Button onClick={() => handleAddBook(book.id)} disabled={book.quantity === 0} className="btn-sm">
-                    Add This Book
+                <Button 
+                    onClick={() => handleAddBook(book.id)} 
+                    disabled={book.quantity === 0} 
+                    className="btn-sm">
+                        Add This Book
                 </Button>
             </td>
         </tr>
     );
 
+    // Filtered list of available books based on search query
     const filteredBooks = allBooks.filter(book => 
         book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         book.author.toLowerCase().includes(searchQuery.toLowerCase())

@@ -4,6 +4,10 @@ import { fetchMyBooks } from '../../services/bookService';
 import BookList from './components/BookList'; 
 import { UserContext } from '../../services/UserContext';
 
+/**
+* Represents the homepage for logged-in users, displaying their borrowed books.
+* It fetches the user's books data on component mount and renders them in a list.
+**/
 function HomePage() {
     const { user } = useContext(UserContext);
     const [books, setBooks] = useState([]);

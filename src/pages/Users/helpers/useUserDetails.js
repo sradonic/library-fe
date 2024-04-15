@@ -3,6 +3,10 @@ import { fetchBooksByUser, fetchAllBooks, renewBook, returnBook, addBookToUser, 
 import { fetchSpecificUserDetails  } from '../../../services/userService';
 import { getPaginationNumbers } from '../../../utils/pagination';
 
+/** 
+* Contains hooks for managing users, including fetching specific user and his books,
+* handling book actions like renewing, returning, and adding, and pagination.
+**/
 const useUserDetails = (userId) => {
     const [user, setUser] = useState(null);
     const [books, setBooks] = useState([]);
@@ -15,6 +19,7 @@ const useUserDetails = (userId) => {
     const [pendingReturns, setPendingReturns] = useState({});
     const totalPages = Math.ceil(totalBooks / booksPerPage);
 
+    // Fetch specific user details and their borrowed books
     useEffect(() => {
         setLoading(true);
         fetchSpecificUserDetails(userId).then(data => {
@@ -26,6 +31,7 @@ const useUserDetails = (userId) => {
         })
     }, [userId]);
 
+    // Fetch all books with pagination
     useEffect(() => {
         setLoading(true);
         const offset = (currentPage - 1) * booksPerPage;
