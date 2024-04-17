@@ -1,13 +1,9 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useUser } from '../services/UserContext';
-import LoginPage from '../pages/Login/LoginPage';
-import RegistrationPage from '../pages/Registration/RegistrationPage';
-import HomePage from '../pages/Home/HomePage';
-import AdminHomePage from '../pages/Home/AdminHomePage';
-import ProtectedRoute from '../components/ProtectedRoute';
-import UserDetails from '../pages/Users/UserDetails';
-import { Roles } from './role';
+import { useUser } from 'services/UserContext';
+import { LoginPage, RegistrationPage, HomePage, AdminHomePage, UserDetails } from 'pages';
+import ProtectedRoute from 'components/ProtectedRoute';
+import { Roles } from './constants/role';
 
 const RoleBasedHomePage = () => {
   const { user } = useUser(); 

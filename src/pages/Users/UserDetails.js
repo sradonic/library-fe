@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../../components/Navbar'; 
-import Button from '../../components/Button';
-import Alert from '../../components/Alert';
-import Table from '../../components/Table';
+
+import { Table, Button, Alert, Navbar, PaginationComponent } from 'components';
 import useUserDetails from './helpers/useUserDetails';
-import PaginationComponent from '../../components/PaginationComponent';
 import EditUserModal from './helpers/EditUserModal';
-import { useUser } from '../../services/UserContext';
-import { Roles } from '../../utils/role';
+import { useUser } from 'services/UserContext';
+import { Roles } from 'utils/constants/role';
 
 /**
 * Represents the user details page displaying information about a specific user, their borrowed books,

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import InputField from '../../components/InputField';
-import Button from '../../components/Button';
-import Alert from '../../components/Alert';
-import { loginUser, fetchUserDetails } from '../../services/userService';
-import { useContext } from 'react';
-import { UserContext } from '../../services/UserContext';
+
+import { InputField, Button, Alert } from 'components';
+import { loginUser, fetchUserDetails } from 'services/userService';
+import { UserContext } from 'services/UserContext';
+import ErrorHandler from 'utils/errorHandler'
 
 /** 
 * Handles the login functionality.
@@ -42,9 +41,10 @@ function LoginForm() {
             setAlert({ show: true, type: 'success', message: 'Login successful!' });
             navigate('/home');
         } catch (error) {
-             setAlert({ show: true, type: 'error', message: error.detail || 'Failed to login. Check data.' });
+            ErrorHandler.handleUIError(error, setAlert);
         }
     };
+    
     return (
         <>
             {alert.show && <Alert type={alert.type} message={alert.message} />}

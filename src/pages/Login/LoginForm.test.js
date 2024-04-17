@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 /* eslint-disable testing-library/prefer-screen-queries */
 /* eslint-disable testing-library/no-unnecessary-act */
 import React from 'react';
@@ -8,8 +9,29 @@ import LoginForm from './LoginForm';
 import { UserContext } from '../../services/UserContext';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
+import ErrorHandler from 'utils/errorHandler';
 
 jest.mock('axios');
+
+beforeEach(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+jest.mock('utils/errorHandler', () => {
+  return {
+    handleUIError: jest.fn((error, setAlert) => {
+      setAlert({
+        show: true,
+        type: 'error',
+        message: error.message || 'An unexpected error occurred.'
+      });
+    }),
+    handleServiceError: jest.fn(error => {
+      throw new Error(error.response.data.detail);
+    })
+  };
+});
+
 
 describe('LoginForm', () => {
     const mockSetUserData = jest.fn();
@@ -17,8 +39,10 @@ describe('LoginForm', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
+      jest.spyOn(console, 'error').mockClear();
       axios.post.mockClear();
       axios.get.mockClear();
+      ErrorHandler.handleUIError.mockClear();
     });
   
     const wrapper = ({ children }) => (
@@ -47,7 +71,7 @@ describe('LoginForm', () => {
     expect(getByLabelText('Password').value).toBe('password');
     
     await act(async () => {
-      userEvent.click(getByRole('button', { name: /Log In/i }));
+      userEvent.click(getByRole('button', { name:'Log In' }));
     });
   
   });
@@ -71,9 +95,14 @@ describe('LoginForm', () => {
 
   it('handles login failure', async () => {
     const errorMessage = 'Failed to login. Check data.';
-    axios.post.mockRejectedValue({
-      response: { data: { detail: errorMessage } }
-    });
+    const errorResponse = {
+      response: {
+        data: { detail: errorMessage },
+        status: 400,
+        statusText: 'Bad Request'
+      }
+    };
+    axios.post.mockRejectedValue(errorResponse);
 
     render(<LoginForm />, { wrapper });
     await act(async () => {
@@ -83,8 +112,16 @@ describe('LoginForm', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText(errorMessage)).toBeInTheDocument();
+      expect(ErrorHandler.handleUIError).toHaveBeenCalledWith(expect.objectContaining({
+        response: expect.objectContaining({
+          data: expect.objectContaining({
+            detail: errorMessage
+          }),
+          status: 400
+        })
+      }), expect.any(Function));
     });
   });
+
   
 });

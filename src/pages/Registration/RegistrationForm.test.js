@@ -2,20 +2,37 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useNavigate } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import RegistrationForm from './RegistrationForm';
-import { validateForm } from '../../utils/validation';
-import { registerUser } from '../../services/userService';
 import { act } from 'react-dom/test-utils';
-import { useNavigate } from 'react-router-dom';
 
-jest.mock('../../services/userService'); 
-jest.mock('../../utils/validation'); 
+import RegistrationForm from './RegistrationForm';
+import { validateForm } from 'utils/constants/validation';
+import { registerUser } from 'services/userService';
+import ErrorHandler from 'utils/errorHandler';
+
+
+jest.mock('services/userService'); 
+jest.mock('utils/constants/validation'); 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'), 
     useNavigate: jest.fn(), 
 }));
+
+jest.mock('utils/errorHandler', () => {
+    return {
+      handleUIError: jest.fn((error, setAlert) => {
+        setAlert({
+          show: true,
+          type: 'error',
+          message: error.message || 'An unexpected error occurred.'
+        });
+      }),
+      handleServiceError: jest.fn(error => {
+        throw new Error(error.response.data.detail);
+      })
+    };
+  });  
 
 describe('RegistrationForm', () => {
     let navigateMock;
@@ -38,7 +55,7 @@ describe('RegistrationForm', () => {
         expect(screen.getByLabelText('Email')).toBeInTheDocument();
         expect(screen.getByLabelText('Password')).toBeInTheDocument();
         expect(screen.getByLabelText('ConfirmPassword')).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /Register/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Register' })).toBeInTheDocument();
     });
 
     it('allows entering data into form fields', async () => {
@@ -96,24 +113,40 @@ describe('RegistrationForm', () => {
     });
 
     it('handles server errors during registration', async () => {
-        validateForm.mockReturnValue({});
+        validateForm.mockReturnValue({}); 
         const errorMessage = 'Failed to register. Check data.';
-        registerUser.mockRejectedValue({
-            detail: errorMessage
-        });
-
+        const errorResponse = {
+          response: {
+            data: {
+              detail: errorMessage
+            },
+            status: 400,
+            statusText: 'Bad Request'
+          }
+        };
+        registerUser.mockRejectedValue(errorResponse);
+    
         render(
             <MemoryRouter>
                 <RegistrationForm />
             </MemoryRouter>
         );
-
+    
         await act(async () => {
             userEvent.type(screen.getByLabelText('Username'), 'testuser');
             userEvent.type(screen.getByLabelText('Password'), 'password123');
             fireEvent.submit(screen.getByRole('button', { name: 'Register' }));
         });
-
-        expect(await screen.findByText(errorMessage)).toBeInTheDocument();
+    
+        await waitFor(() => {
+          expect(ErrorHandler.handleUIError).toHaveBeenCalledWith(expect.objectContaining({
+            response: expect.objectContaining({
+              data: expect.objectContaining({
+                detail: errorMessage
+              }),
+              status: 400
+            })
+          }), expect.any(Function));
+        });
     });
 });

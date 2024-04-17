@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
-import { fetchMyBooks } from '../../services/bookService';
+
+import Navbar from 'components/Navbar';
 import BookList from './components/BookList'; 
-import { UserContext } from '../../services/UserContext';
+import { fetchMyBooks } from 'services/bookService';
+import { UserContext } from 'services/UserContext';
 
 /**
 * Represents the homepage for logged-in users, displaying their borrowed books.

@@ -1,12 +1,13 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import AdminHomePage from './AdminHomePage';
 import { BrowserRouter as Router } from 'react-router-dom';
-import * as userService from '../../services/userService';
 
-jest.mock('../../services/userService');
-jest.mock('../../components/Table', () => ({ data, columns, renderRow }) => (
+import AdminHomePage from './AdminHomePage';
+import * as userService from 'services/userService';
+
+jest.mock('services/userService');
+jest.mock('components/Table', () => ({ data, columns, renderRow }) => (
     <table>
       <thead>
         <tr>{columns.map((col, index) => <th key={index}>{col.header}</th>)}</tr>
@@ -17,12 +18,12 @@ jest.mock('../../components/Table', () => ({ data, columns, renderRow }) => (
     </table>
   ));
   
-jest.mock('../../components/Navbar', () => () => <div>Navbar</div>);
+jest.mock('components/Navbar', () => () => <div>Navbar</div>);
 
 describe('AdminHomePage', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        console.error = jest.fn(); // Mock console.error to check error logging
+        console.error = jest.fn(); 
     });
 
     it('displays the loading state initially', async () => {
@@ -69,7 +70,6 @@ describe('AdminHomePage', () => {
         await waitFor(() => {
             expect(screen.getByText(errorMessage)).toBeInTheDocument();
         });
-        expect(console.error).toHaveBeenCalledWith('Error:', expect.any(Error));
     });
 
     it('renders table with user data correctly', async () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from './LoginForm';
 import './LoginPage.scss'; 
-import library from '../../assets/pexels-tima-miroshnichenko-6550162.jpg'
+import library from 'assets/pexels-tima-miroshnichenko-6550162.jpg'
 
 /**  
 * LoginPage renders a login form for users to log into the application.

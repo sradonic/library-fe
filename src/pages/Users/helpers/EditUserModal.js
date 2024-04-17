@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import InputField from '../../../components/InputField';
-import SelectField from '../../../components/SelectField';
-import Button from '../../../components/Button';
-import { updateUserDetails } from '../../../services/userService';
-import { Roles } from '../../../utils/role';
+
+import { InputField, Button, SelectField, Alert } from 'components';
+import { updateUserDetails } from 'services/userService';
+import { Roles } from 'utils/constants/role';
+import ErrorHandler from 'utils/errorHandler'
 
 /** 
 * Modal component for editing user details. Displays username, name, email, and role,
@@ -12,6 +12,7 @@ import { Roles } from '../../../utils/role';
 **/
 const EditUserModal = ({ show, handleClose, user, setUser  }) => {
     const [formData, setFormData] = useState({ ...user });
+    const [alert, setAlert] = useState(false);
     const roleOptions = Object.entries(Roles).map(([key, value]) => ({
         label: value, 
         value: value
@@ -35,7 +36,7 @@ const EditUserModal = ({ show, handleClose, user, setUser  }) => {
                 setUser(updatedUser); 
                 handleClose();
             } catch (error) {
-                console.error('Failed to update user:', error);
+                ErrorHandler.handleUIError(error, setAlert);
             }
         }
     };
@@ -46,6 +47,7 @@ const EditUserModal = ({ show, handleClose, user, setUser  }) => {
                 <Modal.Title>Edit User Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            {alert.show && <Alert type={alert.type} message={alert.message} />}
                 <InputField 
                     label="Username" 
                     type="text" 

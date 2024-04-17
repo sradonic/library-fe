@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Alert from '../components/Alert';
+import Alert from 'components/Alert';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 

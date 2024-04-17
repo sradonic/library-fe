@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
-import { fetchUsers } from '../../services/userService';
-import Table from '../../components/Table';
+
+import { Navbar, Table } from 'components';
+import { fetchUsers } from 'services/userService';
 
 /** 
 * Represents the admin homepage displaying a list of users.

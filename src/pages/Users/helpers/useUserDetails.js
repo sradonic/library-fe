@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { fetchBooksByUser, fetchAllBooks, renewBook, returnBook, addBookToUser, fetchBookDetails } from '../../../services/bookService';
-import { fetchSpecificUserDetails  } from '../../../services/userService';
-import { getPaginationNumbers } from '../../../utils/pagination';
+
+import { fetchBooksByUser, fetchAllBooks, renewBook, returnBook, addBookToUser, fetchBookDetails } from 'services/bookService';
+import { fetchSpecificUserDetails  } from 'services/userService';
+import { getPaginationNumbers } from 'utils/pagination';
 
 /** 
 * Contains hooks for managing users, including fetching specific user and his books,

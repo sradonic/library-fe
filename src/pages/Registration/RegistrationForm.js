@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import InputField from '../../components/InputField';
-import Button from '../../components/Button';
-import { validateForm } from '../../utils/validation';
-import { registerUser } from '../../services/userService';
-import Alert from '../../components/Alert';
+
+import { InputField, Button, Alert } from 'components';
+import { validateForm } from 'utils/constants/validation';
+import { registerUser } from 'services/userService';
+import ErrorHandler from 'utils/errorHandler'
 
 /**
 * Handles the registration functionality.
@@ -48,7 +48,7 @@ function RegistrationForm() {
                 setAlert({ show: true, type: 'success', message: 'Registration successful!' });
                 navigate('/login');
             } catch (error) {
-                setAlert({ show: true, type: 'error', message: error.detail || 'Failed to register. Check data.' });
+                ErrorHandler.handleUIError(error, setAlert);
             }
         } else {
             setErrors(newErrors);

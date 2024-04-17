@@ -1,10 +1,11 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import HomePage from './HomePage';
-import { UserContext } from '../../services/UserContext';
 import { MemoryRouter } from 'react-router-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
+
+import HomePage from './HomePage';
+import { UserContext } from 'services/UserContext';
 
 jest.mock('axios');
 
